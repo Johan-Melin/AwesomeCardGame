@@ -52,7 +52,7 @@ const CardArea = () => {
         const imgSource=cardImage;
         return (
             <Image
-                style={{width: 226, height: 314}}
+                style={styles.cardStyle}
                 source={{uri: imgSource}}
             />
         )
@@ -63,21 +63,46 @@ const CardArea = () => {
     }, []);
 
     return (
-        <View>
-            <Text>Score: {score}</Text>
-            <Text>Cards remaining: {cards.remaining}</Text>
+        <View style={styles.container}>
+            <Text style={styles.text}>Score: {score}</Text>
+            <Text style={styles.text}>Cards remaining: {cards.remaining}</Text>
             {renderImage()}
-            <TouchableOpacity onPress={() => guessHigher()}>
-                <Text>Higher</Text>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => guessLower()}>
-                <Text>Lower</Text>
-            </TouchableOpacity>
+            <View style={styles.btnRow}>
+                <TouchableOpacity onPress={() => guessHigher()} style={styles.btn}>
+                    <Text style={styles.btnText}>Higher</Text>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => guessLower()} style={styles.btn}>
+                    <Text style={styles.btnText}>Lower</Text>
+                </TouchableOpacity>
+            </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        alignItems: 'center',
+    },
+    text: {
+        fontSize: 24
+    },
+    btnText: {
+        fontSize: 18
+    },
+    cardStyle: {
+        width: 226,
+        height: 314
+    },
+    btnRow: {
+        flexDirection: 'row',
+    },
+    btn: {
+        backgroundColor: '#f0f0f0',
+        borderWidth: 1,
+        borderRadius: 5,
+        margin: 5,
+        padding: 5
+    }
 });
 
 export default CardArea
