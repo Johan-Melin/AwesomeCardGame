@@ -5,7 +5,9 @@ const axios = require('axios');
 const CardArea = () => {
     const [score, setScore] = useState(0);
     const [cards, setCards] = useState({});
+    const [currentCard, setCurrentCard] = useState(null);
     const [cardImage, setCardImage] = useState(null);
+    const [guess, setGuess] = useState(null);
 
     function getCards(){
         const cardUrl = 'https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1';
@@ -23,8 +25,13 @@ const CardArea = () => {
         axios.get(cardUrl)
       .then(function (response) {
         setCards(response.data);
+        setCurrentCard(response.data.cards[0]);
         setCardImage(response.data.cards[0].image);
-
+        if((guess === "high" && (response.data.cards[0]?.value > currentCard.value))
+        || (guess === "low" && (response.data.cards[0]?.value < currentCard.value))){
+            setScore(currentScore => currentScore + 1);
+        }
+        console.log(response.data.cards[0].value);
       })
       .catch(function (error) {
         console.log(error);
@@ -32,10 +39,12 @@ const CardArea = () => {
     }
 
     const guessHigher = () => {
+        setGuess("high");
         drawCard();
     }
     
     const guessLower = () => {
+        setGuess("low");
         drawCard();
     }
 
@@ -43,7 +52,7 @@ const CardArea = () => {
         const imgSource=cardImage;
         return (
             <Image
-                style={{width: 200, height: 200}}
+                style={{width: 226, height: 314}}
                 source={{uri: imgSource}}
             />
         )
